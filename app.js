@@ -6,9 +6,16 @@ const tokensRouter = require("./routes/token.js");
 const signsRouter = require("./routes/sign.js");
 const postsRouter = require("./routes/posts.js");
 const commentsRouter = require("./routes/comments.js");
+const likesRouter = require("./routes/likes.js");
 
 app.use(express.json());
-app.use("/api", [tokensRouter, signsRouter, postsRouter, commentsRouter]);
+app.use("/api", [
+  tokensRouter,
+  signsRouter,
+  postsRouter,
+  commentsRouter,
+  likesRouter,
+]);
 
 app.get("/", (req, res) => {
   res.status(200).send("여기는 index 페이지");
