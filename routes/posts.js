@@ -2,14 +2,17 @@ const express = require("express");
 const router = express.Router();
 // const { Op } = require("sequelize");
 const { Post } = require("../models");
-const { User } = require("../models");
+const { Like } = require("../models");
 const authMiddleware = require("../middlewares/auth-middleware.js");
 // const cookieParser = require("cookie-parser");
 // const SECRET_KEY = `jeonghoon`;
 
 // 전체 게시글 목록 조회
 router.get("/posts", async (req, res) => {
-  const getAllPosts = await Post.findAll({}); // posts
+  const getAllPosts = await Post.findAll({
+    attributes: ["postId", "title", "likes"],
+  }); // posts
+
   res.status(200).json({ getAllPosts }); //verb가 리턴값의 이름에 붙는것은 좋은 네이밍 컨벤션이 아니다. posts
 });
 
