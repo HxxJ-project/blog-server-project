@@ -9,10 +9,6 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      count: {
-        allowNull: false,
-        type: Sequelize.INTEGER,
-      },
       check: {
         type: Sequelize.BOOLEAN,
         defaultValue: false,

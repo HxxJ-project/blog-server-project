@@ -33,7 +33,7 @@ router.post("/users", async (req, res) => {
 
   await User.create({ nickname, password });
 
-  res.status(201).send({});
+  res.status(201).send({ message: "회원가입이 완료되었습니다!" });
 });
 
 // 로그인

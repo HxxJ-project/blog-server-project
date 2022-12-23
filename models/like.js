@@ -21,10 +21,6 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         type: DataTypes.INTEGER,
       },
-      count: {
-        allowNull: false,
-        type: DataTypes.INTEGER,
-      },
       check: {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
