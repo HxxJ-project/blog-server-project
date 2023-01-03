@@ -1,20 +1,20 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const jwt = require("jsonwebtoken");
-const { User } = require("../models");
-const cookieParser = require("cookie-parser");
+const jwt = require('jsonwebtoken');
+const { User } = require('../models');
+const cookieParser = require('cookie-parser');
 const SECRET_KEY = `jeonghoon`;
 
 router.use(cookieParser());
 
 module.exports = async (req, res, next) => {
   const { cookie } = req.headers;
-  const [authType, authToken] = (cookie || "").split("=");
+  const [authType, authToken] = (cookie || '').split('=');
   // const authToken = req.cookies.token;
 
-  if (!authToken || authType !== "token") {
+  if (!authToken || authType !== 'token') {
     res.status(400).json({
-      errorMessage: "로그인 후 사용이 가능한 API 입니다.",
+      errorMessage: '로그인 후 사용이 가능한 API 입니다.',
     });
     return;
   }
@@ -30,7 +30,7 @@ module.exports = async (req, res, next) => {
     });
   } catch (error) {
     res.status(400).json({
-      errorMessage: "로그인 후 사용이 가능한 API 입니다.",
+      errorMessage: '로그인 후 사용이 가능한 API 입니다.',
     });
     return;
   }

@@ -1,7 +1,7 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const jwt = require("jsonwebtoken");
-const cookieParser = require("cookie-parser");
+const jwt = require('jsonwebtoken');
+const cookieParser = require('cookie-parser');
 const SECRET_KEY = `jeonghoon`;
 
 router.use(cookieParser());
@@ -9,18 +9,18 @@ router.use(cookieParser());
 let tokenObject = {}; // Refresh Token을 저장할 Object
 
 // refresh / access token 발급
-router.get("/set-token/:id", (req, res) => {
+router.get('/set-token/:id', (req, res) => {
   const id = req.params.id;
   const accessToken = createAccessToken(id);
   const refreshToken = createRefreshToken();
 
   tokenObject[refreshToken] = id; // Refresh Token을 가지고 해당 유저의 정보를 서버에 저장합니다.
-  res.cookie("accessToken", accessToken); // Access Token을 Cookie에 전달한다.
-  res.cookie("refreshToken", refreshToken); // Refresh Token을 Cookie에 전달한다.
+  res.cookie('accessToken', accessToken); // Access Token을 Cookie에 전달한다.
+  res.cookie('refreshToken', refreshToken); // Refresh Token을 Cookie에 전달한다.
 
   return res
     .status(200)
-    .send({ message: "Token이 정상적으로 발급되었습니다." });
+    .send({ message: 'Token이 정상적으로 발급되었습니다.' });
 });
 
 // Access Token을 생성합니다.
@@ -28,7 +28,7 @@ function createAccessToken(id) {
   const accessToken = jwt.sign(
     { id: id }, // JWT 데이터
     SECRET_KEY, // 비밀키
-    { expiresIn: "10s" }
+    { expiresIn: '10s' },
   ); // Access Token이 10초 뒤에 만료되도록 설정합니다.
 
   return accessToken;
@@ -39,42 +39,42 @@ function createRefreshToken() {
   const refreshToken = jwt.sign(
     {}, // JWT 데이터
     SECRET_KEY, // 비밀키
-    { expiresIn: "7d" }
+    { expiresIn: '7d' },
   ); // Refresh Token이 7일 뒤에 만료되도록 설정합니다.
 
   return refreshToken;
 }
 
 // 토큰 인증 받기
-router.get("/get-token", (req, res) => {
+router.get('/get-token', (req, res) => {
   const accessToken = req.cookies.accessToken;
   const refreshToken = req.cookies.refreshToken;
 
   if (!refreshToken)
     return res
       .status(400)
-      .json({ message: "Refresh Token이 존재하지 않습니다." });
+      .json({ message: 'Refresh Token이 존재하지 않습니다.' });
   if (!accessToken)
     return res
       .status(400)
-      .json({ message: "Access Token이 존재하지 않습니다." });
+      .json({ message: 'Access Token이 존재하지 않습니다.' });
 
   const isAccessTokenValidate = validateAccessToken(accessToken); // 검증이 제대로 되었는지 확인
   const isRefreshTokenValidate = validateRefreshToken(refreshToken); // 검증이 제대로 되었는지 확인
 
   if (!isRefreshTokenValidate)
-    return res.status(419).json({ message: "Refresh Token이 만료되었습니다." });
+    return res.status(419).json({ message: 'Refresh Token이 만료되었습니다.' });
 
   if (!isAccessTokenValidate) {
     const accessTokenId = tokenObject[refreshToken];
     if (!accessTokenId)
       return res
         .status(419)
-        .json({ message: "Refresh Token의 정보가 서버에 존재하지 않습니다." });
+        .json({ message: 'Refresh Token의 정보가 서버에 존재하지 않습니다.' });
 
     const newAccessToken = createAccessToken(accessTokenId);
-    res.cookie("accessToken", newAccessToken);
-    return res.json({ message: "Access Token을 새롭게 발급하였습니다." });
+    res.cookie('accessToken', newAccessToken);
+    return res.json({ message: 'Access Token을 새롭게 발급하였습니다.' });
   }
 
   const { id } = getAccessTokenPayload(accessToken);

@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "prettify": "prettier --write *.js **/*.js"
   },
   "keywords": [],
   "author": "",
@@ -17,6 +18,7 @@
     "sequelize": "^6.28.0"
   },
   "devDependencies": {
+    "prettier": "^2.8.1",
     "sequelize-cli": "^6.5.2"
   }
 }
